@@ -10,10 +10,11 @@ const AXIOS_URL = "https://blog-mirafal-default-rtdb.firebaseio.com/";
 const Todolist = () => {
   const [todo, setTodo] = useState({
     description: "",
+    done: false,
   });
   const [taskList, setTaskList] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [displayTemplate, setDisplayTemplate] = useState(true);
   //
   axios.interceptors.request.use((req) => {
     console.log("[in request interceptor]", req);
@@ -43,8 +44,8 @@ const Todolist = () => {
             id: key,
           });
         }
-        // setLoading(false);
         setTaskList(fetchedData);
+        setDisplayTemplate(false);
       }
     };
 
@@ -61,10 +62,12 @@ const Todolist = () => {
 
   const addTask = async (event) => {
     event.preventDefault();
+
     const taskObj = {
       ...todo,
       createdAt: new Date().toISOString().slice(0, 10),
     };
+
     try {
       await axios.post(`${AXIOS_URL}/task.json`, taskObj);
     } finally {
@@ -88,16 +91,19 @@ const Todolist = () => {
         add={addTask}
       />
       {loading && <Spinner />}
-      {taskList.map((task) => {
-        return (
-          <Displaytodo
-            key={task.id}
-            description={task.description}
-            created={task.createdAt}
-            remove={() => deleteTask(task.id)}
-          />
-        );
-      })}
+
+      <ol>
+        {taskList.map((task) => {
+          return (
+            <Displaytodo
+              key={task.id}
+              description={task.description}
+              created={task.createdAt}
+              remove={() => deleteTask(task.id)}
+            />
+          );
+        })}
+      </ol>
     </div>
   );
 };

@@ -3,8 +3,10 @@ import "./Displaytodo.css";
 
 const Displaytodo = (props) => {
   return (
-    <div className="container">
-      <p>Описание:{props.description}</p>
+    <div className="asd">
+      <li>
+        <p className="titleTask">{props.description}</p>
+      </li>
       <span onClick={props.remove} className="removeBTN">
         x
       </span>

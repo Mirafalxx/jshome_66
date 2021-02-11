@@ -1,19 +1,14 @@
-.container {
+.asd {
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-around;
+  margin-top: 10px;
   border: 1px solid #000;
-  border-radius: 3px;
-  max-width: 400px;
-  margin: 0 auto;
-  margin-top: 30px;
-}
-.removeBTN {
-  width: 20%;
+  border-radius: 4px;
 }
 
-p {
-  width: 20%;
+.removeBTN {
+  font-size: 20px;
 }
 .removeBTN:hover {
   cursor: pointer;
