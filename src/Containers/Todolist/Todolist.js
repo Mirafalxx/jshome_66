@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import Addtodo from "../../Components/Addtodo/Addtodo";
 import Displaytodo from "../../Components/Displaytodo/Displaytodo";
@@ -31,26 +31,25 @@ const Todolist = () => {
       console.log("[ in response ERR interceptor]", err);
     }
   );
-  //
+
+  const getTaskList = useCallback(async () => {
+    const response = await axios.get(`${AXIOS_URL}/task.json`);
+    const fetchedData = [];
+    if (response.data !== null) {
+      for (let key in response.data) {
+        fetchedData.unshift({
+          ...response.data[key],
+          id: key,
+        });
+      }
+      setTaskList(fetchedData);
+      setDisplayTemplate(false);
+    }
+  }, []);
 
   useEffect(() => {
-    const getTaskList = async () => {
-      const response = await axios.get(`${AXIOS_URL}/task.json`);
-      const fetchedData = [];
-      if (response.data !== null) {
-        for (let key in response.data) {
-          fetchedData.unshift({
-            ...response.data[key],
-            id: key,
-          });
-        }
-        setTaskList(fetchedData);
-        setDisplayTemplate(false);
-      }
-    };
-
     getTaskList().catch(console.error);
-  }, []);
+  }, [getTaskList]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -80,7 +79,8 @@ const Todolist = () => {
     await axios
       .delete(`${AXIOS_URL}/task/${taskId}.json`)
       .then((response) => response);
-    window.location.reload();
+    // window.location.reload();
+    await getTaskList();
   };
 
   return (
