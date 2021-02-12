@@ -10,25 +10,23 @@ const AXIOS_URL = "https://blog-mirafal-default-rtdb.firebaseio.com/";
 const Todolist = () => {
   const [todo, setTodo] = useState({
     description: "",
-    done: false,
   });
   const [taskList, setTaskList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [displayTemplate, setDisplayTemplate] = useState(true);
-  //
+
   axios.interceptors.request.use((req) => {
-    console.log("[in request interceptor]", req);
+    // console.log("[in request interceptor]", req);
     return req;
   });
 
   axios.interceptors.response.use(
     (res) => {
-      console.log("[in response interceptor]", res);
+      // console.log("[in response interceptor]", res);
       setLoading(false);
       return res;
     },
     (err) => {
-      console.log("[ in response ERR interceptor]", err);
+      // console.log("[ in response ERR interceptor]", err);
     }
   );
 
@@ -43,7 +41,6 @@ const Todolist = () => {
         });
       }
       setTaskList(fetchedData);
-      setDisplayTemplate(false);
     }
   }, []);
 
@@ -65,21 +62,22 @@ const Todolist = () => {
     const taskObj = {
       ...todo,
       createdAt: new Date().toISOString().slice(0, 10),
+      done: false,
     };
 
     try {
       await axios.post(`${AXIOS_URL}/task.json`, taskObj);
     } finally {
       setTodo({ description: "" });
+      await getTaskList();
     }
-    window.location.reload();
   };
 
   const deleteTask = async (taskId) => {
     await axios
       .delete(`${AXIOS_URL}/task/${taskId}.json`)
       .then((response) => response);
-    // window.location.reload();
+
     await getTaskList();
   };
 
@@ -100,10 +98,14 @@ const Todolist = () => {
               description={task.description}
               created={task.createdAt}
               remove={() => deleteTask(task.id)}
+              checked={task.done}
+              // changeChecked={() => !task.done}
             />
           );
         })}
       </ol>
+      {/* <input type="checkbox" checked={x} onChange={() => setX(!x)} />
+      <p className={x ? "zacherk" : ""}>Mirafaaaaaaaaal</p> */}
     </div>
   );
 };

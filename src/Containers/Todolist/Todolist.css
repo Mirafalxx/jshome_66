@@ -2,3 +2,10 @@
   width: 500px;
   margin: 0 auto;
 }
+.danger {
+  color: red;
+}
+
+.zacherk {
+  text-decoration: line-through;
+}

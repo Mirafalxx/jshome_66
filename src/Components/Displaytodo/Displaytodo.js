@@ -5,11 +5,17 @@ const Displaytodo = (props) => {
   return (
     <div className="asd">
       <li>
-        <p className="titleTask">{props.description}</p>
+        <p>{props.description}</p>
+        {/* <input
+          type="checkbox"
+          checked={props.checked}
+          onChange={props.changeChecked}
+          defaultChecked={props.checked}
+        /> */}
       </li>
-      <span onClick={props.remove} className="removeBTN">
+      <p onClick={props.remove} className="removeBTN" disabled={!props.checked}>
         x
-      </span>
+      </p>
     </div>
   );
 };

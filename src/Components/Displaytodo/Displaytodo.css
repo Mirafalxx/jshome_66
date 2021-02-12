@@ -13,11 +13,6 @@
 .removeBTN:hover {
   cursor: pointer;
 }
-.check {
-  padding: 5px 120px;
-}
-
-input[type="checkbox"]:checked + p {
-  color: #f00;
-  font-style: normal;
+.zacherk {
+  text-decoration: line-through;
 }
